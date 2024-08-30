@@ -1,5 +1,5 @@
 # Better Keyframer
-Codename: KeyLeyPalmer
+Codename: KeyKeyPalmer
 
 WIP
 
