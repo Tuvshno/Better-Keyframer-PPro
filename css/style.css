@@ -1,0 +1,127 @@
+/* styles.css */
+
+/* General Styles */
+* {
+	font-family: "LucidaGrande", sans-serif;
+	box-sizing: border-box; /* Ensure padding and border are included in width and height */
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #1e1e1e;
+	color: white;
+}
+
+p {
+	text-align: center;
+}
+
+a {
+	color: #8080ff;
+}
+
+button {
+	font-size: 12px;
+	border: 1px solid;
+	height: 30px;
+	margin: 10px;
+	background-color: #333;
+	color: white;
+}
+
+.information {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Layout Containers */
+.panel-container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100vh; /* Full viewport height */
+}
+
+.property-list {
+	width: 20%; /* Left section width */
+	background-color: #2b2b2b;
+	border-right: 1px solid #444;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.property-list h3 {
+	margin-top: 0;
+	color: white;
+}
+
+.property-row {
+	padding: 8px;
+	margin-bottom: 5px;
+	background-color: #333;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.property-row:hover {
+	background-color: #444;
+}
+
+.timeline-controls-container {
+	width: 80%; /* Right section width */
+	padding: 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Timeline Styles */
+.timeline-container {
+	position: relative;
+	width: 100%;
+	height: 200px;
+	border: 1px solid #ccc;
+	overflow: hidden;
+	background-color: #2b2b2b;
+}
+
+.timeline-ruler {
+	width: 100%;
+	height: 20px;
+	background-color: #333;
+	border-bottom: 1px solid #555;
+	position: relative;
+}
+
+.track-container {
+	position: relative;
+	width: 100%;
+	background-color: #1e1e1e;
+}
+
+.track-row {
+	position: relative;
+	width: 100%;
+	height: 40px; /* Adjust height as needed */
+	border-bottom: 1px solid #444;
+}
+
+.keyframe {
+	position: absolute;
+	top: 50%;
+	width: 10px;
+	height: 10px;
+	background-color: #f00;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+
+.property-detail {
+	padding-left: 15px;
+	font-size: 12px;
+	color: #ddd;
+	margin-top: 2px;
+}
