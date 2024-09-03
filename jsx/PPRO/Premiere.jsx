@@ -14,6 +14,8 @@
 
 // time display types
 
+#include "json2.js";
+
 var TIMEDISPLAY_24Timecode				= 100;
 var TIMEDISPLAY_25Timecode				= 101;
 var TIMEDISPLAY_2997DropTimecode		= 102;
@@ -1446,8 +1448,6 @@ $._PPP_={
 		}
 	},
 
-	
-
 	onPlayWithKeyframes : function () {
 		var seq = app.project.activeSequence;
 		if (seq) {
@@ -2111,8 +2111,8 @@ $._PPP_={
 					event.type = "My Custom Event";
 					event.data = "some payload data...";
 					event.type = "com.mycompany.updateClipProperties"; // Custom event name
-					var componentsString = simpleSerialize(components);
-
+					// var componentsString = simpleSerialize(components);
+					var componentsString = JSON.stringify(components)
 					event.data = componentsString
 					event.dispatch();
 

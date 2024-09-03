@@ -31,6 +31,9 @@ button {
 }
 
 .information {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -40,34 +43,45 @@ button {
 .panel-container {
 	display: flex;
 	flex-direction: row;
+	padding-top: 1%;
+	padding-left: 0.25%;
 	width: 100%;
 	height: 100vh; /* Full viewport height */
+	background-color: #232323;
 }
+
 
 .property-list {
-	width: 20%; /* Left section width */
-	background-color: #2b2b2b;
-	border-right: 1px solid #444;
-	padding: 10px;
+	width: 20%;
+	background-color: #1D1D1D;
+	border: 1px solid #444;
 	box-sizing: border-box;
+	font-size: 12px;
+	color: #ddd;
 }
 
-.property-list h3 {
-	margin-top: 0;
-	color: white;
+.row {
+	height: 25px; /* Set height for all rows */
+	border-top: 1px solid #333; /* Border above */
+	border-bottom: 1px solid #333; /* Border below */
+
+}
+
+/* Specific Styles */
+.property-header {
+	font-weight: bold;
+	background-color: #2b2b2b;
 }
 
 .property-row {
-	padding: 8px;
-	margin-bottom: 5px;
-	background-color: #333;
-	border-radius: 4px;
 	cursor: pointer;
 }
 
-.property-row:hover {
-	background-color: #444;
+.property-detail {
+	padding-left: 15px;
+	color: #ddd;
 }
+
 
 .timeline-controls-container {
 	width: 80%; /* Right section width */
@@ -119,9 +133,3 @@ button {
 	cursor: pointer;
 }
 
-.property-detail {
-	padding-left: 15px;
-	font-size: 12px;
-	color: #ddd;
-	margin-top: 2px;
-}

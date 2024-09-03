@@ -34,7 +34,7 @@ function onLoaded () {
 		csInterface.evalScript("$._PPP_.closeLog()");
 	});
 
-	csInterface.evalScript("$._PPP_.getUserName()", myUserNameFunction);  
+	// csInterface.evalScript("$._PPP_.getUserName()", myUserNameFunction);  
 	csInterface.evalScript("$._PPP_.keepPanelLoaded()");
 	csInterface.evalScript("$._PPP_.disableImportWorkspaceWithProjects()");
 	csInterface.evalScript("$._PPP_.registerProjectPanelSelectionChangedFxn()");  	// Project panel selection changed
@@ -90,11 +90,11 @@ function myCallBackFunction (data) {
 	seq_display.innerHTML	= boilerPlate + data;
 }
 
-function myUserNameFunction (data) {
-	// Updates username with whatever ExtendScript function returns.
-	var user_name		= document.getElementById("username");
-	user_name.innerHTML	= data;
-}
+// function myUserNameFunction (data) {
+// 	// Updates username with whatever ExtendScript function returns.
+// 	var user_name		= document.getElementById("username");
+// 	user_name.innerHTML	= data;
+// }
 
 function myGetProxyFunction (data) {
 	// Updates proxy_display based on current sequence's value.
@@ -335,13 +335,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 	});
 
-	clearKeyframeButton.addEventListener('click', (e) => clearKeyframes());
+	// clearKeyframeButton.addEventListener('click', (e) => clearKeyframes());
 
 	const csInterface = new CSInterface();
 
 	function getSelectedComponents() {
 			csInterface.evalScript('getSelectedItemComponents()', (result) => {
-					const components = JSON.parse(result);
+					const components = DeserializeJSON(result);
 					renderProperties(components);
 			});
 	}
@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Listen for custom event from ExtendScript
 	csInterface.addEventListener("com.mycompany.updateClipProperties", (event) => {
 		console.log('Received data:', event.data);  // Log the event data to inspect it
-		const components = simpleDeserialize(event.data);
+		const components = DeserializeJSON(event.data);
 		renderProperties(components);
 });
 
@@ -372,25 +372,32 @@ function renderProperties(components) {
 					return;
 			}
 
+			// Create a header for each component
+			const componentHeader = document.createElement('div');
+			componentHeader.textContent = component.name;
+			componentHeader.classList.add('property-header');
+			componentHeader.classList.add('row');
+			propertyContainer.appendChild(componentHeader);
+
 			// Create a row for each component in the properties list
-			const propertyRow = document.createElement('div');
-			propertyRow.classList.add('property-row');
-			propertyRow.textContent = component.name;
-			propertyContainer.appendChild(propertyRow);
+			const propertySection = document.createElement('div');
+			propertySection.classList.add('property-section');
+			propertyContainer.appendChild(propertySection);
+
+			// Add properties to the component row
+			component.properties.forEach(property => {
+			const propertyDetail = document.createElement('div');
+			propertyDetail.classList.add('property-detail');
+			propertyDetail.classList.add('row');
+			propertyDetail.textContent = `${property.name}: ${property.value}`;
+			propertySection.appendChild(propertyDetail);
+			});
 
 			// Create a corresponding track row for the timeline
 			const trackRow = document.createElement('div');
 			trackRow.classList.add('track-row');
 			trackRow.setAttribute('data-property', component.name.toLowerCase());
 			trackContainer.appendChild(trackRow);
-
-			// Add properties to the component row
-			component.properties.forEach(property => {
-					const propertyDetail = document.createElement('div');
-					propertyDetail.classList.add('property-detail');
-					propertyDetail.textContent = `${property.name}: ${property.value}`;
-					propertyRow.appendChild(propertyDetail);
-			});
 	});
 }
 
@@ -400,23 +407,23 @@ function renderProperties(components) {
 });
 
 
-function simpleDeserialize(serializedString) {
-	if (!serializedString) return null; // Check if the string is empty or undefined
+function DeserializeJSON(serializedString) {
+	if (!serializedString) return null;
 
 	if (serializedString[0] === '[') {
 			// Deserialize an array
-			var arrayContent = serializedString.slice(1, -1); // Remove the square brackets
-			var items = arrayContent ? arrayContent.split(/\|(?=[^\[\]]*(?:\[|$))/) : []; // Split on '|' not inside brackets
+			var arrayContent = serializedString.slice(1, -1); 
+			var items = arrayContent ? arrayContent.split(/\|(?=[^\[\]]*(?:\[|$))/) : []; 
 			return items.map(function(item) {
 					return simpleDeserialize(item);
 			});
 	} else if (serializedString[0] === '{') {
 			// Deserialize an object
 			var objectContent = serializedString.slice(1, -1); // Remove the curly braces
-			var keyValues = objectContent ? objectContent.split(/,(?![^\{]*\})/) : []; // Split on commas outside of curly braces
+			var keyValues = objectContent ? objectContent.split(/,(?![^\{]*\})/) : [];
 			var obj = {};
 			keyValues.forEach(function(keyValue) {
-					var keyValuePair = keyValue.split(/:(.+)/); // Split only on the first colon
+					var keyValuePair = keyValue.split(/:(.+)/); 
 					var key = keyValuePair[0];
 					var value = simpleDeserialize(keyValuePair[1]);
 					obj[key] = value;
